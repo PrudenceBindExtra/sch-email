@@ -6,7 +6,7 @@ const { contains } = require('validator');
 const {schEmail} = require('./email-sch')
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Replace the connection details with your own
 const sequelize = new Sequelize('ltxczpzm', 'ltxczpzm', 'yrNyCOMQd-W8ZyAHSN3FHSuyiQglKbcD', {
@@ -144,9 +144,15 @@ app.get('/', async (req, res) => {
     }
   });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+app.listen(
+  { port: process.env.PORT, host: "0.0.0.0" },
+  function (err, address) {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    console.log(`Your app is listening on ${address}`);
+  }});
 
 
 
